@@ -538,3 +538,22 @@ def get_jobs(session, job_ids, seo_details, lang):
     else:
         raise JobsNotFoundException(
             message=json_data['message'], error_code=json_data['error_code'])
+
+# This is my own defined function for getting reviews for a given project
+
+def get_reviews(session, project_id):
+    """
+    Get a list of reviews
+    """
+    get_reviews_data = {
+    'projects[]': project_id
+    }
+
+    # GET /api/projects/0.1/reviews/
+    response = make_get_request(session, 'reviews', params_data=get_reviews_data)
+    json_data = response.json()
+    if response.status_code == 200:
+        return json_data['result']
+    else:
+        raise ReviewNotFoundException(
+            message=json_data['message'], error_code=json_data['error_code'])
